@@ -1,6 +1,7 @@
 
 
 from pathlib import Path
+from datetime import timedelta
 from decouple import config,Csv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -32,6 +33,9 @@ INSTALLED_APPS = [
     'app.users',
     'app.groups',
     'app.students',
+    'drf_spectacular',
+    
+    'rest_framework_simplejwt',
 ]
 
 MIDDLEWARE = [
@@ -113,3 +117,37 @@ STATIC_URL = 'static/'
 
 
 AUTH_USER_MODEL ='users.CustomUser'
+    
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=15),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=30),
+    "ROTATE_REFRESH_TOKENS": False,
+    "BLACKLIST_AFTER_ROTATION": False,
+    "UPDATE_LAST_LOGIN": False,
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Education Api",
+    "DESCRIPTION": "Education-Admin-Panel",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+    "COMPONENT_SPLIT_REQUEST": True,
+    "SECURITY": [{"BearerAuth": []}],
+    "SECURITY_DEFINITIONS": {
+        "BearerAuth": {
+            "type": "http",
+            "scheme": "bearer",
+            "bearerFormat": "JWT",
+        }
+    },
+}
