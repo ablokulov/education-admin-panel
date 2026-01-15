@@ -1,6 +1,6 @@
 # education-admin-panel
 
-Loyiha turi: Admin Panel
+### Loyiha turi: Admin Panel
 
 Foydalanuvchi turi: faqat 1 ta admin
 
@@ -36,8 +36,9 @@ Refresh token HttpOnly cookie orqali saqlanishi kerak
 
 Himoyalangan endpointlar uchun auth middleware
 
-📌 Asosiy funksiyalar
-1️⃣ Admin login
+### 📌 Asosiy funksiyalar
+### 1️⃣ Admin login
+```
 
 POST /api/auth/login
 
@@ -46,8 +47,9 @@ POST /api/auth/logout
 POST /api/auth/refresh
 
 POST /api/auth/change-password
+```
 
-2️⃣ Guruhlar bilan ishlash
+### 2️⃣ Guruhlar bilan ishlash
 
 Admin quyidagilarni qila olishi kerak:
 
@@ -59,7 +61,8 @@ Guruhni o‘chirish
 
 Guruhlar ro‘yxatini olish
 
-Guruh modeli:
+## Guruh modeli:
+```
 
 id
 
@@ -68,7 +71,8 @@ name (guruh nomi)
 teacherName (ixtiyoriy)
 
 createdAt
-
+```
+```
 Endpointlar:
 
 POST /api/groups
@@ -78,8 +82,9 @@ GET /api/groups
 PUT /api/groups/:id
 
 DELETE /api/groups/:id
+```
 
-3️⃣ O‘quvchilar bilan ishlash
+### 3️⃣ O‘quvchilar bilan ishlash
 
 Admin quyidagilarni qila olishi kerak:
 
@@ -94,6 +99,7 @@ O‘quvchilar ro‘yxatini ko‘rish
 O‘quvchini guruhga biriktirish
 
 O‘quvchi modeli:
+```
 
 id
 
@@ -104,8 +110,10 @@ phone
 groupId
 
 createdAt
+```
 
-Endpointlar:
+## Endpointlar:
+```
 
 POST /api/students
 
@@ -114,3 +122,4 @@ GET /api/students
 PUT /api/students/:id
 
 DELETE /api/students/:id
+```

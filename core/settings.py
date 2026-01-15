@@ -29,10 +29,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     # Local app
-    'app.account',
+    'app.users',
     'app.groups',
     'app.students',
-    'app.teachers',
 ]
 
 MIDDLEWARE = [
@@ -111,3 +110,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+
+AUTH_USER_MODEL ='users.CustomUser'
