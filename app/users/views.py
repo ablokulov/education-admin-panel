@@ -3,9 +3,9 @@ from django.contrib.auth import authenticate
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.permissions import AllowAny
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated,AllowAny
+from .permissions import Is_Admin
 
 
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -18,11 +18,13 @@ class LoginView(APIView):
         username = request.data.get("username")
         password = request.data.get("password")
         
-        user = authenticate(username=username,password=password)
+
+        user = authenticate(username=username, password=password)
         
+                
         if not user:
             return Response({"detail":"Munday username foydalanuvchisi  yuq"},status=status.HTTP_401_UNAUTHORIZED)
-        
+            
         refresh = RefreshToken.for_user(user)
         
         response = Response({
@@ -41,7 +43,7 @@ class LoginView(APIView):
     
     
 class RefreshView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated,Is_Admin]
     
     def post(self,request:Request)->Response:
         refresh_token = request.COOKIES.get('refresh_token')
@@ -71,9 +73,8 @@ class LogoutView(APIView):
 
 
 
-
 class ChangePasswordView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated,Is_Admin]
 
     def post(self, request):
         user = request.user
@@ -88,4 +89,4 @@ class ChangePasswordView(APIView):
 
         user.set_password(new_password)
         user.save()
-        return Response({"detail": "Password O'zgartirildi"})
+        return Response({"message": "Password O'zgartirildi"})
