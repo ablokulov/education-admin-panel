@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     
     # Local app
     'app.users',
+    'app.teacher',
     'app.groups',
     'app.students',
     'drf_spectacular',
