@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated,AllowAny
 from .permissions import Is_Admin
+from .serializers import LoginSerializer
 
 
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -13,35 +14,36 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 class LoginView(APIView):
     permission_classes = [AllowAny]
-    
     def post(self,request:Request)->Response:
-        username = request.data.get("username")
-        password = request.data.get("password")
         
-
-        user = authenticate(username=username, password=password)
-        
-                
-        if not user:
-            return Response({"detail":"Munday username foydalanuvchisi  yuq"},status=status.HTTP_401_UNAUTHORIZED)
+        serializer = LoginSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            data = serializer.validated_data
             
-        refresh = RefreshToken.for_user(user)
-        
-        response = Response({
-            "Access": str(refresh.access_token)
-        })
-        
-        response.set_cookie(
-            key="refresh_token",
-            value=str(refresh),
-            httponly=True,
-            secure=False,
-            samesite="Lax",
-            max_age=60 * 60 * 24 * 30
-        )
-        return response
+            user = authenticate(username = data["username"],password = data["password"])
+                
+            if not user:
+                return Response({"detail":"Bunday username foydalanuvchisi  yuq"},status=status.HTTP_401_UNAUTHORIZED)
+                
+            refresh = RefreshToken.for_user(user)
+            
+            response = Response({
+                "Access": str(refresh.access_token)
+            })
+            
+            response.set_cookie(
+                key="refresh_token",
+                value=str(refresh),
+                httponly=True,
+                secure=False,
+                samesite="Lax",
+                max_age=60 * 60 * 24 * 30
+            )
+            
+            return response
+        return Response(status=status.HTTP_404_NOT_FOUND)
     
-    
+
 class RefreshView(APIView):
     permission_classes = [IsAuthenticated,Is_Admin]
     
