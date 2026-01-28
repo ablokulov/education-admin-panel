@@ -4,16 +4,26 @@ from app.users.permissions import Is_Admin
 from .models import Teacher
 from .serializers import TeacherListSerializer
 
-
 class ListCreateViews(ListCreateAPIView):
-    queryset = Teacher.objects.all()
     serializer_class = TeacherListSerializer
-    permission_classes = [Is_Admin,IsAuthenticated]
-    
+    permission_classes = [IsAuthenticated, Is_Admin]
+
+    def get_queryset(self):
+        user = self.request.user
+        if not user.is_authenticated:
+            return Teacher.objects.none()
+        return Teacher.objects.all()
+
+
 class UpdateViews(RetrieveUpdateDestroyAPIView):
-    queryset = Teacher.objects.all()
     serializer_class = TeacherListSerializer
-    permission_classes = [Is_Admin,IsAuthenticated]
-    
-    lookup_field = 'id'
+    permission_classes = [IsAuthenticated, Is_Admin]
+    lookup_field = "id"
+
+    def get_queryset(self):
+        user = self.request.user
+        if not user.is_authenticated:
+            return Teacher.objects.none()
+        return Teacher.objects.all()
+
     

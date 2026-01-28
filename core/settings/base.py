@@ -25,14 +25,19 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     # Local app
-    'app.users',
+    'app.users.apps.UsersConfig',
     'app.teacher',
     'app.groups',
     'app.students',
+    'app.notifications',
     'drf_spectacular',
     
+    'rest_framework',
     'rest_framework_simplejwt',
+    "rest_framework_simplejwt.token_blacklist"
 ]
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -117,6 +122,9 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    "DEFAULT_PAGINATION_CLASS": 
+    "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 20,
 }
 
 
@@ -124,15 +132,15 @@ REST_FRAMEWORK = {
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=15),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=30),
-    "ROTATE_REFRESH_TOKENS": False,
-    "BLACKLIST_AFTER_ROTATION": False,
+    "ROTATE_REFRESH_TOKENS": True,
+    "BLACKLIST_AFTER_ROTATION": True,
     "UPDATE_LAST_LOGIN": False,
 }
 
 SPECTACULAR_SETTINGS = {
     "TITLE": "Education Api",
     "DESCRIPTION": "Education-Admin-Panel",
-    "VERSION": "1.0.0",
+    "VERSION": "2.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
     "COMPONENT_SPLIT_REQUEST": True,
     "SECURITY": [{"BearerAuth": []}],

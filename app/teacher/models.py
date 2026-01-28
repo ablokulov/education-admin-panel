@@ -1,10 +1,16 @@
 from django.db import models
 
-# Create your models here.
-
+from app.users.models import CustomUser
 
 class Teacher(models.Model):
-    
+
+    user = models.OneToOneField(
+    CustomUser,
+    on_delete=models.CASCADE,
+    related_name="teacher_profile",
+    db_index=True
+)
+
     full_name = models.CharField(max_length=50)
     profession = models.CharField(max_length=150)
     

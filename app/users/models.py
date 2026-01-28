@@ -17,5 +17,17 @@ class CustomUser(AbstractUser):
     
 
     @property
-    def is_admin(self) -> bool:
+    def is_admin_role(self) -> bool:
         return self.role == self.Role.ADMIN
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(
+        CustomUser,
+        on_delete=models.CASCADE,
+        related_name="profile"
+    )
+    phone = models.CharField(max_length=15, blank=True)
+
+    def __str__(self):
+        return self.user.username
