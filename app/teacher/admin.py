@@ -1,29 +1,27 @@
 from django.contrib import admin
-from .models import Student
+from .models import Teacher
 
 
-@admin.register(Student)
-class StudentAdmin(admin.ModelAdmin):
+@admin.register(Teacher)
+class TeacherAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "full_name",
         "user",
-        "group",
-        "phone",
+        "profession",
         "created_at",
     )
 
     list_filter = (
-        "group",
+        "profession",
         "created_at",
     )
 
     search_fields = (
         "full_name",
-        "phone",
+        "profession",
         "user__username",
         "user__email",
-        "group__group_name",
     )
 
     ordering = ("-created_at",)
